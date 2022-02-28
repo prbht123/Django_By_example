@@ -1,0 +1,41 @@
+{% extends "blog/base.html" %}
+{% block title %}Who was Django Reinhardt? 
+
+{% endblock %}
+{% block content %}
+
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+    Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}
+    <hr border-top: 17px solid #bbb;>
+
+
+    {% with comments.count as total_comments %}
+        <h2>
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
+    <hr border-top: 17px solid #bbb;>
+    <div>
+    {%  for item in comments %}
+        <p>comment {{forloop.counter}} by {{item.name}} {{item.created}}</p>
+        <h4>{{ item.body}}</h4>
+    {% endfor %}
+    </div>
+    <hr border-top: 17px solid #bbb;>
+    {% if new_comment %}
+        <h2>Your comment has been added.</h2>
+    {% else %}
+        <h2>Add a new comment</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+           
+        <p><input type="submit" value="Add comment"></p>
+        </form>
+    {% endif %}
+
+ 
+{% endblock %}

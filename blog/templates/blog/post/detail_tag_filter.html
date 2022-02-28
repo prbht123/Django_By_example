@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<hr border-top: 17px solid #bbb;>
+<p class="date">
+Published {{ post.publish }} by {{ post.author }}
+</p>
+<p> Tags : 
+    {% for item in post_tags_name %}
+
+        {{ item }} 
+        {% if not forloop.last %}, {% endif %}
+
+{% endfor %}
+</p> 
+{{ post.body|linebreaks }} 
+<p>
+    <a href="{% url 'post_share' post.id %}" >
+    Share this post
+    </a>
+</p>
+
+<h2>Similar posts</h2>
+{% for post in similar_posts %}
+<p>
+<!-- <a href="/blog/tagfilter/{{post.id}}">
+    !-->
+<a href="{{post.get_absolute_url}}">
+{{ post.title }}</a>
+</p>
+{% empty %}
+There are no similar posts yet.
+{% endfor %}
+
+{% endblock %}
